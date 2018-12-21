@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+import json
 
 class CreateTag(generics.CreateAPIView):
     queryset = Tags.objects.all()
@@ -55,13 +56,13 @@ def index(request):
                 login(request,user)
                 return HttpResponseRedirect(reverse('dashboard'))
             else:
-                return HttpResponse("Your account was inactive.")
+                context['status'] = "Your account was inactive."
+                return render(request, 'login.html', context)
         else:
-            print("Someone tried to login and failed.")
-            print("They used username: {} and password: {}".format(username,password))
-            return HttpResponse("Invalid login details given")
+            context['status'] = "Invalid login details given"
+            return render(request, 'login.html', context)
     else:
-        return render(request, 'login.html')
+        return render(request, 'login.html', context)
 
 @login_required(login_url='../')
 def user_logout(request):
@@ -72,8 +73,11 @@ def user_logout(request):
 def dashboard(request):
     return render(request, 'index.html')
 
-#@login_required(login_url='../')
+
 def taglist(request):
+    tchat = ChatRequest.objects.count()
+    tquery = User_Chat.objects.filter(type='client').count()
+    tuser = Client.objects.count()
     tags = Tags.objects.all()
     taglists = []
     for t in tags:
@@ -83,7 +87,7 @@ def taglist(request):
     tagcount = []
     for t in taglist_unique:
         tagcount.append(taglists.count(t))
-    return JsonResponse({'tags':taglist_unique,'count':tagcount, 'countsum': sum(tagcount)})
+    return JsonResponse({'tags':taglist_unique,'count':tagcount, 'countsum': sum(tagcount), 'tchat': tchat, 'tquery': tquery, 'tuser': tuser})
 
 
 def acceptRequest(request, pk=None, userid=None):
@@ -93,3 +97,18 @@ def acceptRequest(request, pk=None, userid=None):
     x.status = "Accepted"
     x.save()
     return JsonResponse({'data':'Accepted'})
+
+@csrf_exempt
+def doChat(request):
+    chat = User_Chat.objects.create(chat = request.POST['chat'],
+        expert = User.objects.get(pk=request.POST['expert']),
+        client = Client.objects.get(pk=request.POST['client']),
+        type = request.POST['type']
+    );
+    chat.save()
+    #chat=hi&expert=1&client=84&type=expert
+    return HttpResponse('success')
+
+    #ChatRequest.objects.count()
+    #User_Chat.objects.filter(type='client').count()
+    #User.objects.count()

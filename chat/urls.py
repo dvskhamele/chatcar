@@ -16,4 +16,5 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name="dashboard"),
     path('user_logout/', views.user_logout, name="logout"),
     path('acceptRequest/<int:pk>/<int:userid>', views.acceptRequest, name="acceptRequest"),
+    path('client/v1/dochat/', views.doChat),
 ]

@@ -48,7 +48,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Chat Dashboard</a>
+                <a class="navbar-brand" href="index.html">Welcome {{user.username| upper}}</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -97,11 +97,18 @@
                                   <i class="glyphicon glyphicon-user fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">8</div>
-                                    <div>Total Chats</div>
+                                    <div class="huge" id="tchat">0</div>
+                                    <div>Total Chat Requests</div>
                                 </div>
                             </div>
                         </div>
+			<a href="https://harpreetford.herokuapp.com/admin/chat/chatrequest/" target="_blank">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
@@ -112,11 +119,18 @@
                                     <i class="fa fa-tasks fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
+                                    <div class="huge" id="tuser">0</div>
                                     <div>Total Users</div>
                                 </div>
                             </div>
-                    </div>
+                       </div>
+			<a href="https://harpreetford.herokuapp.com/admin/chat/client/" target="_blank">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
@@ -127,11 +141,18 @@
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">24</div>
+                                    <div class="huge" id="tquery">0</div>
                                     <div>Total Queries</div>
                                 </div>
                             </div>
                         </div>
+			                     <a href="https://harpreetford.herokuapp.com/admin/chat/user_chat/" target="_blank">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
                     </div>
                 </div>
 
@@ -201,7 +222,7 @@
 
     </div>
     <!-- /#wrapper -->
-
+    <input type="hidden" id="chat_id" value="0" />
     <!-- jQuery -->
     <script src="/static/vendor/jquery/jquery.min.js"></script>
 
@@ -215,7 +236,7 @@
     <script src="/static/dist/js/sb-admin-2.js"></script>
     <script>
       $(document).ready(function(){
-        client_start = '<li class="left clearfix"><span class="chat-img pull-left"><img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><strong class="primary-font">';
+        client_start = '<li class="left clearfix"><span class="chat-img pull-left"><img style="width:50px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQitMjXQ9ZH78wHrNosyyrhfk-odE-CK1iBH-5wQkEQ1gxuKeZNwg" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><strong class="primary-font">';
         //Jack Sparrow
         client_mid1 = '</strong><small class="pull-right text-muted"><i class="fa fa-clock-o fa-fw"></i>';
         //12 mins ago
@@ -224,7 +245,7 @@
         client_end = '</p></div></li>';
 
 
-        expert_start = '<li class="right clearfix"><span class="chat-img pull-right"><img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><small class=" text-muted"><i class="fa fa-clock-o fa-fw"></i>';
+        expert_start = '<li class="right clearfix"><span class="chat-img pull-right"><img style="width:50px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQitMjXQ9ZH78wHrNosyyrhfk-odE-CK1iBH-5wQkEQ1gxuKeZNwg" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><small class=" text-muted"><i class="fa fa-clock-o fa-fw"></i>';
         //13 mins ago
         expert_mid1 = '</small><strong class="pull-right primary-font">';
         //Bhaumik Patel
@@ -237,9 +258,9 @@
         var client_name = "";
         var client_id = 0;
         var expert_id = {{user.id}};
-        //console.log(expert_id);
+
         setInterval(function(){
-          $.get('http://localhost:8000/client/v1/taglist/', function(data){
+          $.get('https://harpreetford.herokuapp.com/client/v1/taglist/', function(data){
             tags = [];
             count = [];
             $.each( data.tags, function( key, value ) {
@@ -254,13 +275,16 @@
             }
             $('#tags').html(t);
           //  $('#countsum').text(data.countsum);
+          $('#tchat').text(data.tchat);
+          $('#tquery').text(data.tquery);
+          $('#tuser').text(data.tuser);
           });
-          $.get('http://127.0.0.1:8000/client/v1/displaychatrequest/', function(data){
+          $.get('https://harpreetford.herokuapp.com/client/v1/displaychatrequest/', function(data){
             //console.log(data);
             requestdata = data;
             allchreq = "";
             $.each( data, function( key, value ) {
-              allchreq +='<a href="#" requestid="'+value.id+'" client_name="'+value.client_name+'" client_id="'+value.client+'" class="list-group-item requestchat"><i class="fa fa-tasks fa-fw"></i><strong>'+value.client_name+'</strong> for '+value.requestdata+'<span class="pull-right text-muted small"><em></em></span></a>';
+              allchreq +='<a href="#" requestid="'+value.id+'" client_name="'+value.client_name+'" client_id="'+value.client+'" style="margin-bottom:5px;width:100%;text-alight:left !important;" class="btn btn-primary requestchat"><i class="fa fa-comments fa-fw"></i><strong>'+value.client_name+'</strong> for '+value.requestdata+'<span class="pull-right text-muted small"><em></em></span></a>';
             });
             $('#chatrequest').html(allchreq);
           });
@@ -270,55 +294,83 @@
             client_name = $(this).attr('client_name');
             var requestid = $(this).attr('requestid');
             $(this).hide();
-            $.get('http://127.0.0.1:8000/acceptRequest/'+requestid+'/'+expert_id, function(data){
+            $.get('https://harpreetford.herokuapp.com/acceptRequest/'+requestid+'/'+expert_id, function(data){
                 //console.log(data);
                 $("#client_name").text(client_name);
                 $(".chat").empty();
-                $.get('http://localhost:8000/client/v1/chat/'+expert_id+'/'+client_id, function(data){
-                  $.each( data, function( key, value ) {
-                    if(value.type=="client"){
-                      $('.chat').append(client_start + client_name +client_mid1 + getCurrTime() + client_mid2 + value.chat + client_end);
-                    }else if(value.type=="expert"){
-                      $('.chat').append(expert_start + getCurrTime() +expert_mid1 + 'Karan' + expert_mid2 + value.chat + expert_end);
-                    }
+                setInterval(function(){
+                   displayChat(expert_id, client_id, client_start, client_name, client_mid1, client_mid2, client_end, expert_start, expert_mid1, expert_mid2, expert_end);
+                },2000);
                   //playAudio(audio, muteflg);
-                  Divscroll();
-                  });
-                });
+                Divscroll();
             });
         });
+
 
         $('#btn-chat').click(function(){
           var txt = $('#btn-input').val();
           $('#btn-input').val("");
           if(txt.length>0){
-            $.post('http://localhost:8000/client/v1/createchat/', {"chat": txt,"expert": expert_id,"client": client_id, "type":"expert"}, function(data, status){
-            if(status=="success"){
-              setInterval(function(){
-                displayChat(txt, expert_id, client_id, client_start, client_name, client_mid1, client_mid2, client_end, expert_start, expert_mid1, expert_mid2, expert_end);
-              },2000);
-            }
-          });
+            $.post('https://harpreetford.herokuapp.com/client/v1/dochat/', {"chat": txt,"expert": expert_id,"client": client_id, "type":"expert"}, function(data, status){
+              //console.log(data);
+              if(data=="success"){
+
+              }
+            });
           //  $('.chat').append(expert_start + getCurrTime() +expert_mid1 + 'Karan' + expert_mid2 + txt + expert_end);
           //  console.log(client_id);
 
           }
         });
-      });
 
-function displayChat(txt, expert_id, client_id, client_start, client_name, client_mid1, client_mid2, client_end, expert_start, expert_mid1, expert_mid2, expert_end){
-  var allchat = "";
-  $.get('http://localhost:8000/client/v1/chat/'+expert_id+'/'+client_id, function(data){
-    $.each( data, function( key, value ) {
-      if(value.type=="client"){
-        allchat += client_start + client_name +client_mid1 + getCurrTime() + client_mid2 + value.chat + client_end;
-      }else if(value.type=="expert"){
-        allchat += expert_start + getCurrTime() +expert_mid1 + 'Karan' + expert_mid2 + value.chat + expert_end;
-      }
-      $('.chat').html(allchat);
-      Divscroll();
-    });
+  $("#btn-input").keypress(function(event){
+    if (event.keyCode==13){
+        var txt = $(this).val();
+        if(txt.length>1){
+          $(this).val("");
+          $.post('https://harpreetford.herokuapp.com/client/v1/dochat/', {"chat": txt,"expert": expert_id,"client": client_id, "type":"expert"}, function(data, status){
+            //console.log(data);
+            if(data=="success"){
+
+            }
+          });
+        }
+    }
   });
+      });
+//https://harpreetford.herokuapp.com
+function displayChat(expert_id, client_id, client_start, client_name, client_mid1, client_mid2, client_end, expert_start, expert_mid1, expert_mid2, expert_end){
+  var allchat = "";
+  $.get('https://harpreetford.herokuapp.com/client/v1/chat/'+expert_id+'/'+client_id, function(data){
+    //console.log(data.length);
+    var chat_id = $('#chat_id').val();
+    //console.log(data);
+    $('#chat_id').val(data.length);
+    for(c=chat_id;c<data.length;c++){
+      if(data[c].type=="client"){
+        allchat += client_start + client_name +client_mid1 + convertDate(data[c].cdate) + client_mid2 + data[c].chat + client_end;
+      }else if(data[c].type=="expert"){
+        allchat += expert_start + convertDate(data[c].cdate) +expert_mid1 + 'Karan' + expert_mid2 + data[c].chat + expert_end;
+      }
+      $('.chat').append(allchat);
+      Divscroll();
+    }
+  });
+}
+
+
+function convertDate(date){
+  date = date.split('T0');
+  time = date[1].split('.');
+  time = time[0].split(':')
+  var s = "";
+  if (time[0]>12){
+    s = "PM";
+    h = time[0]-12;
+  }else{
+    s = "AM";
+  }
+  return time[0]+":"+time[1]+" "+s;
 }
 
 

@@ -1,0 +1,110 @@
+{
+  "0": {
+    "name": "New Car",
+    "cate": [
+      {
+        "0": "Explore the details of New Cars. Click to go the page of EcoSport, Aspire, Endeavor etc. <a href=#>view link</a>"
+      }
+    ]
+  },
+  "1": {
+    "name": "Used Car",
+    "cate": [
+      {
+        "0": "Do you want to exchange your car and wanna buy new ford car then click to go on used cars section where you can explore the cars. (Used Cars section)"
+      }
+    ]
+  },
+  "2": {
+    "name": "Car Service",
+    "cate": [
+      {
+        "0": "Do you want to book car service? Book Car service online, click to book car service here (links)"
+      },
+      {
+        "1": "Explore the Car Service Package. HF Care. Love my car. (Links to packages)"
+      }
+    ]
+  },
+  "3": {
+    "name": "Insurance",
+    "cate": [
+      {
+        "0": ""
+      }
+    ]
+  },
+  "4": {
+    "name": "Car Acessories",
+    "cate": [
+      {
+        "0": ""
+      }
+    ]
+  },
+  "5": {
+    "name": "Book a Test Drive",
+    "cate": [
+      {
+        "0": ""
+      }
+    ]
+  },
+  "6": {
+    "name": "Book a Service",
+    "cate": [
+      {
+        "0": ""
+      }
+    ]
+  },
+  "7": {
+    "name": "Our Locations",
+    "cate": [
+      {
+        "0": "Sales Locations",
+        "1": "Service Locations"
+      }
+    ]
+  },
+  "8": {
+    "name": "Sales",
+    "cate": [
+      {
+        "0": "Motinagar.Prashan Vihar.Dilshad Garden.MG Road. InfoCity Gurgaon"
+      }
+    ]
+  },
+  "9": {
+    "name": "Service",
+    "cate": [
+      {
+        "0": "Motinagar.Infocity.Sahibabad.Okhla.Jahangirpuri"
+      }
+    ]
+  },
+  "10": {
+    "name": "Sales & Service",
+    "cate": [
+      {
+        "0": "Sales: Motinagar.Prashan Vihar.Dilshad Garden.MG Road. InfoCity Gurgaon <br/> Service: Motinagar.Infocity.Sahibabad.Okhla.Jahangirpuri"
+      }
+    ]
+  },
+  "11": {
+    "name": "Read our Blog",
+    "cate": [
+      {
+        "0": ""
+      }
+    ]
+  },
+  "12": {
+    "name": "Talk to us",
+    "cate": [
+      {
+        "0": "Please call <a href=tel:9560959906>9560959906</a>, to talk our expert"
+      }
+    ]
+  }
+}
