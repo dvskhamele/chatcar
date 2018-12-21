@@ -24,6 +24,17 @@ class CreateClient(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = ClientSerializer
 
+class BotChatMsgs(generics.ListAPIView):
+    queryset = BotChat.objects.all()
+    serializer_class = BotChatSerializer
+
+class BotChatMsgsDetail(generics.ListAPIView):
+    #queryset = BotDesc.objects.filter(botchat=self.kwargs['pk'])
+    serializer_class = BotDescSerializer
+
+    def get_queryset(self):
+        return BotDesc.objects.filter(botchat=self.kwargs['pk'])
+
 class CreateChat(generics.CreateAPIView):
     queryset = User_Chat.objects.all()
     serializer_class = User_ChatSerializer

@@ -5,7 +5,6 @@ $(document).ready(function() {
   var chatrequest = 0;
   var chatcount = 0;
   var myVar;
-  var obj = loadJsonFiles();
   var botrply_start = '<p style="text-align: left;" class="card-text"><img src="icons/my-passport-size-pic..jpg" />';
   var botrply_mid = '<div class="chatbot">';
 
@@ -99,9 +98,10 @@ $(document).ready(function() {
         $("#contact_mobile").addClass('is-invalid');
     }
   });
+loadCategories();
 
   $("#userform").submit(function(){
-    cate = loadCategories();
+    cate = $('#categories').val();
     contactName = $("#contact_name").val();
     var contactEmail = $("#contact_email").val();
     var contactMob = $("#contact_mobile").val();
@@ -143,52 +143,7 @@ $(document).ready(function() {
     }else{
       alert('Please fill correct details');
     }
-
     return false;
-  });
-
-  $("#send-msg").keypress(function(event){
-    if (event.keyCode==13){
-        var txt = $(this).val();
-        if(txt.length>1){
-          $(this).val("");
-      //    $('.msg-box').append(user_start + txt + user_stop);
-          Divscroll();
-        //  setInterval(function(){
-          $.post('https://harpreetford.herokuapp.com/client/v1/createchat', {"chat": txt,"expert": expert_id,"client": client_id, "type":"client"}, function(data, status){
-            if(status=="success"){
-
-            }
-          });
-        }
-    }
-  });
-
-  $("body").on('click', '.badge', function(){
-    var choice = $(this).text();
-    //console.log(choice);
-    $.post('https://harpreetford.herokuapp.com/client/v1/tag', {name: choice},function(data){
-      //console.log("work");
-    });
-    $('.msg-box').append(user_start + choice + user_stop);
-    Divscroll();
-    flg = reply(choice, botrply_start, botrply_mid, botrply_end, botrply_choice_start, botrply_choice_mid, audio, muteflg);
-    //console.log(flg);
-  });
-
-  $("body").on('click', '#backchoice', function(){
-    var choice = $(this).text();
-    $('.choice').remove();
-    $('.choice-menu').remove();
-    $('.chatoptions1').addClass('chatoptions');
-    $('.chatoptions').removeClass('chatoptions1');
-    $('.msg-box').delay(1500).queue(function (next) {
-
-      $('.msg-box').append(botrply_start + getCurrTime() + "<div class='chatbot choice'>" + cate + botrply_end);
-      playAudio(audio, muteflg);
-      Divscroll();
-      next();
-    });
   });
 
   $("body").on('click', '.chatoptions', function(){
@@ -231,6 +186,53 @@ $(document).ready(function() {
     });
 
   });
+
+  $("#send-msg").keypress(function(event){
+    if (event.keyCode==13){
+        var txt = $(this).val();
+        if(txt.length>1){
+          $(this).val("");
+      //    $('.msg-box').append(user_start + txt + user_stop);
+          Divscroll();
+        //  setInterval(function(){
+          $.post('https://harpreetford.herokuapp.com/client/v1/createchat', {"chat": txt,"expert": expert_id,"client": client_id, "type":"client"}, function(data, status){
+            if(status=="success"){
+
+            }
+          });
+        }
+    }
+  });
+
+  $("body").on('click', '.badge', function(){
+    var choice = $(this).text();
+    var batchid = $(this).attr('batchid');
+    //console.log(choice);
+    $.post('https://harpreetford.herokuapp.com/client/v1/tag', {name: choice},function(data){
+      //console.log("work");
+    });
+    $('.msg-box').append(user_start + choice + user_stop);
+    Divscroll();
+    reply(batchid, botrply_start, botrply_mid, botrply_end, botrply_choice_start, botrply_choice_mid, audio, muteflg);
+    //console.log(flg);
+  });
+
+  $("body").on('click', '#backchoice', function(){
+    var choice = $(this).text();
+    $('.choice').remove();
+    $('.choice-menu').remove();
+    $('.chatoptions1').addClass('chatoptions');
+    $('.chatoptions').removeClass('chatoptions1');
+    $('.msg-box').delay(1500).queue(function (next) {
+
+      $('.msg-box').append(botrply_start + getCurrTime() + "<div class='chatbot choice'>" + cate + botrply_end);
+      playAudio(audio, muteflg);
+      Divscroll();
+      next();
+    });
+  });
+
+
 });
 
 function displayChat(expert_id, client_id, user_start, user_stop, botrply_start, botrply_mid, botrply_end){
@@ -291,70 +293,40 @@ function Divscroll(){
       msgDiv.scrollTop = msgDiv.scrollHeight;
 }
 
-function loadJsonFiles(){
-  /*data = '{"0":{"name":"New Car","cate":[{"0":"Explore New Cars. Click to go the page of the page of <a href=\'https://www.harpreetford.com/ford-ecosport\'>Ecosport</a>, <a href=\'https://www.harpreetford.com/ford-new-ecosport\'>New EcoSport</a>, <a href=\'https://www.harpreetford.com/ford-aspire\'>new aspire</a>, <a href=\'https://www.harpreetford.com/ford-new-freestyle\'>aspire Freestyle</a>, <a href=\'https://www.harpreetford.com/ford-mustang\'>Mustang</a>, <a href=\'https://www.harpreetford.com/ford-figo\'>Figo</a>, <a href=\'https://www.harpreetford.com/ford-endeavour\'>Endeavor</a> etc."}]},"1":{"name":"Used Car","cate":[{"0":"Choose the best used car in budget from any brand. Explore Pre-owned cars section to <a href=\'https://tsgcarbazar.com/\'>click here</a>."}]},"2":{"name":"Car Service","cate":[{"0":"Do you want to book car service? Book Car service online, <a href=\'https://www.harpreetford.com/bookservice\'>click to book car service here</a>."},{"1":"Explore the Car Service Package. <a href=\'https://www.harpreetford.com/hfcare\'>HF Care</a>, <a href=\'https://www.harpreetford.com/lmc\'>Love my car</a>."}]},"3":{"name":"Insurance","cate":[{"0":"Book Car Insurance in a Minute or renew car insurance just filling the sign up form. <a href=\'https://www.harpreetford.com/insurance\'>Sign up now.</a>"}]},"4":{"name":"Car Acessories","cate":[{"0":"Explore our car accessories and service packages like VAS, VDS, <a href=\'https://www.harpreetford.com/hfcare\'>HF Care</a> AND SO ON. Want to know more <a href=\'#\'>click here</a>"}]},"5":{"name":"Book a Test Drive","cate":[{"0":"Book Test Drive at your nearest Location. Our Showrooms are at Motinagar, Infocity, MG Road, Dilshad Gardner and Prashant Vihar Rohini. <a href=\'https://www.harpreetford.com/test-drive\'>Book a Test drive now</a>"}]},"6":{"name":"Book a Service","cate":[{"0":"no data"}]},"8":{"name":"Sales Location","cate":[{"0":"Motinagar.Prashan Vihar.Dilshad Garden.MG Road. InfoCity Gurgaon"}]},"9":{"name":"Service Location","cate":[{"0":"Motinagar.Infocity.Sahibabad.Okhla.Jahangirpuri <a href=\'https://www.harpreetford.com/locations\'>view locations.</a>"}]},"10":{"name":"Sales & Service","cate":[{"0":"Sales: Motinagar.Prashan Vihar.Dilshad Garden.MG Road. InfoCity Gurgaon <br/> Service: Motinagar.Infocity.Sahibabad.Okhla.Jahangirpuri"}]},"11":{"name":"Read our Blog","cate":[{"0":"Explore more at our official blog where we keep sharing live happenings and trends with ford cars and service. <a href=\'https://harpreetford.com/blog/\'>Read more</a>"}]},"12":{"name":"Talk to us","cate":[{"0":"Please call <a href=\'tel:9560959906\'>9560959906</a>, to talk our expert"}]}}';
-*/
-  data = '{"0":{"name":"New Car","cate":[{"0":"Explore New Cars. Click to go the page of the page of <a target=\'_blank\' href=\'https://www.harpreetford.com/ford-ecosport\'>Ecosport</a>, <a target=\'_blank\' href=\'https://www.harpreetford.com/ford-new-ecosport\'>New EcoSport</a>, <a target=\'_blank\' href=\'https://www.harpreetford.com/ford-aspire\'>new aspire</a>, <a href=\'https://www.harpreetford.com/ford-new-freestyle\'>aspire Freestyle</a>, <a href=\'https://www.harpreetford.com/ford-mustang\'>Mustang</a>, <a target=\'_blank\'  href=\'https://www.harpreetford.com/ford-figo\'>Figo</a>, <a target=\'_blank\' href=\'https://www.harpreetford.com/ford-endeavour\'>Endeavor</a> etc."}]},"1":{"name":"Used Car","cate":[{"0":"Choose the best used car in budget from any brand. Explore Pre-owned cars section to <a target=\'_blank\' href=\'https://tsgcarbazar.com/\'>click here</a>."}]},"2":{"name":"Car Service","cate":[{"0":"Do you want to book car service? Book Car service online, <a target=\'_blank\' href=\'https://www.harpreetford.com/bookservice\'>click to book car service here</a>."},{"1":"Explore the Car Service Package. <a target=\'_blank\' href=\'https://www.harpreetford.com/hfcare\'>HF Care</a>, <a href=\'https://www.harpreetford.com/lmc\'>Love my car</a>."}]},"3":{"name":"Insurance","cate":[{"0":"Book Car Insurance in a Minute or renew car insurance just filling the sign up form. <a target=\'_blank\' href=\'https://www.harpreetford.com/insurance\'>Sign up now.</a>"}]},"4":{"name":"Car Acessories","cate":[{"0":"Explore our car accessories and service packages like VAS, VDS, <a target=\'_blank\' href=\'https://www.harpreetford.com/hfcare\'>HF Care</a> AND SO ON. Want to know more <a target=\'_blank\' href=\'#\'>click here</a>"}]},"5":{"name":"Book a Test Drive","cate":[{"0":"Book Test Drive at your nearest Location. Our Showrooms are at Motinagar, Infocity, MG Road, Dilshad Gardner and Prashant Vihar Rohini. <a target=\'_blank\' href=\'https://www.harpreetford.com/test-drive\'>Book a Test drive now</a>"}]},"6":{"name":"Book a Service","cate":[{"0":"no data"}]},"8":{"name":"Sales Location","cate":[{"0":"Motinagar.Prashan Vihar.Dilshad Garden.MG Road. InfoCity Gurgaon"}]},"9":{"name":"Service Location","cate":[{"0":"Motinagar.Infocity.Sahibabad.Okhla.Jahangirpuri <a target=\'_blank\' href=\'https://www.harpreetford.com/locations\'>view locations.</a>"}]},"10":{"name":"Sales & Service","cate":[{"0":"Sales: Motinagar.Prashan Vihar.Dilshad Garden.MG Road. InfoCity Gurgaon <br/> Service: Motinagar.Infocity.Sahibabad.Okhla.Jahangirpuri"}]},"11":{"name":"Read our Blog","cate":[{"0":"Explore more at our official blog where we keep sharing live happenings and trends with ford cars and service. <a target=\'_blank\' href=\'https://harpreetford.com/blog/\'>Read more</a>"}]},"12":{"name":"Talk to us","cate":[{"0":"Please Choose Below <br/> <a class=\'chatoptions btn btn-primary\' style=\'margin-bottom:3px;\' href=#>Sales</a> <a class=\'chatoptions btn btn-primary\' style=\'margin-bottom:3px;\' href=#>Service</a> <a class=\'chatoptions btn btn-primary\' style=\'margin-bottom:3px;\' href=#>Insurance</a> <a class=\'chatoptions btn btn-primary\' style=\'margin-bottom:3px;\' href=#>Other</a>"}]}}';
-  obj = JSON.parse(data);
-  loadCategories();
-
-  return obj;
-}
-/*
-function loadJsonFiles(){
-  $.post("js/categories.txt", function(data){
-    obj = JSON.parse(data);
-    //console.log(obj);
-    loadCategories();
-  });
-}*/
-
-function loadCategories(){
-  var cate_span_start = '<span class="badge badge-light">';
-  var cate_span_end = '</span>';
-  var str = "";
-  $.each( obj, function( key, value ) {
-    str += cate_span_start + value.name + cate_span_end;
-  });
-  return str;
-}
-
-function reply(choice, botrply_start, botrply_mid, botrply_end, botrply_choice_start, botrply_choice_mid, audio, muteflg){
-  flg = 0;
-  $.each( obj, function( key, value ) {
-    //console.log(value.name);
-    if(value.name==choice){
-      cht = value.name;
-      flg=1;
-      $.each( value.cate, function( key, value ) {
-        $('.msg-box').delay(1500).queue(function (next) {
-          if(cht=="Talk to us"){
-            $(this).append(botrply_start + getCurrTime() + botrply_mid + value[key] + botrply_end);
-          }else{
-            $(this).append(botrply_start + getCurrTime() + botrply_mid + value[key] + botrply_end);
-          }
-          playAudio(audio, muteflg);
-          Divscroll();
-          next();
-        });
-      });
-      $('.msg-box').delay(2000).queue(function (next) {
-        $(this).append(botrply_choice_start + getCurrTime() + botrply_choice_mid + "<a id='backchoice' href='#'>Back to Choice</a>" + botrply_end);
-        playAudio(audio, muteflg);
-        Divscroll();
-        next();
-      });
-    }
-  });
-  return flg;
-}
-
-function customReply(choice, botrply_start, botrply_mid, botrply_end, audio){
-//bag of words
-}
-
 function playAudio(audio, muteflg){
   if(muteflg==1){
     audio.play();
   }
+}
+
+function loadCategories(){
+  var str = "";
+  $.get("https://harpreetford.herokuapp.com/client/v1/botmsgs/", function(data){
+    $.each( data, function( key, value ) {
+      str += '<span class="badge badge-light" batchid="'+value.id+'">' + value.msg + '</span>';
+    });
+    $('#categories').val(str);
+  });
+
+  return str;
+}
+
+function reply(batchid, botrply_start, botrply_mid, botrply_end, botrply_choice_start, botrply_choice_mid, audio, muteflg){
+  $.get('https://harpreetford.herokuapp.com/client/v1/botmsgsdetail/'+batchid, function(data){
+    console.log(data);
+    $.each( data, function( key, value ) {
+      $('.msg-box').delay(1500).queue(function (next) {
+        $(this).append(botrply_start + getCurrTime() + botrply_mid + value.descrip + botrply_end);
+        playAudio(audio, muteflg);
+        Divscroll();
+        next();
+      });
+    });
+    $('.msg-box').delay(2000).queue(function (next) {
+      $(this).append(botrply_choice_start + getCurrTime() + botrply_choice_mid + "<a id='backchoice' href='#'>Back to Choice</a>" + botrply_end);
+      playAudio(audio, muteflg);
+      Divscroll();
+      next();
+    });
+  });
 }

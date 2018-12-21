@@ -8,6 +8,20 @@ class TagSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only = ['pk']
 
+class BotChatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BotChat
+        fields = '__all__'
+        read_only = ['pk']
+
+class BotDescSerializer(serializers.ModelSerializer):
+    botchat = serializers.PrimaryKeyRelatedField(queryset = BotChat.objects.all())
+    botchat_msg = serializers.StringRelatedField(source='botchat',read_only=True)
+    class Meta:
+        model = BotDesc
+        fields = '__all__'
+        read_only = ['pk']
+
 class ChatRequestSerializer(serializers.ModelSerializer):
     client = serializers.PrimaryKeyRelatedField(queryset = Client.objects.all())
     client_name = serializers.StringRelatedField(source='client',read_only=True)

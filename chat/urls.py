@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('client/v1/botmsgs/', views.BotChatMsgs.as_view()),
+    path('client/v1/botmsgsdetail/<int:pk>', views.BotChatMsgsDetail.as_view()),
     path('client/v1/tag/', views.CreateTag.as_view()),
     path('client/v1/taglist/', views.taglist),
     path('client/v1/users/', views.CreateClient.as_view()),
