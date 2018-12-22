@@ -107,7 +107,7 @@ loadCategories();
     var contactMob = $("#contact_mobile").val();
     //After Submission Validation
     if (contact_flg_1==0 && contact_flg_2==0 && contact_flg_3==0){
-      $.post('https://harpreetford.herokuapp.com/client/v1/users', {"name": contactName, "mobile": contactMob, "email": contactEmail}, function(data, status){
+      $.post('https://harpreetford.herokuapp.com/client/v1/users/', {"name": contactName, "mobile": contactMob, "email": contactEmail}, function(data, status){
         //console.log(status);
         if (status=="success"){
           client_id = data.id;
@@ -151,7 +151,7 @@ loadCategories();
     $('.chatoptions').addClass('chatoptions1');
     $('.chatoptions1').removeClass('chatoptions');
     //console.log(client_id);
-    $.post('https://harpreetford.herokuapp.com/client/v1/chatrequest', {'client': client_id, 'requestdata':choice}, function(data, status){
+    $.post('https://harpreetford.herokuapp.com/client/v1/chatrequest/', {'client': client_id, 'requestdata':choice}, function(data, status){
       //console.log(data.id);
       myVar = setInterval(function(){
         $.get('https://harpreetford.herokuapp.com/client/v1/detailchatrequest/'+data.id, function(data){
@@ -195,7 +195,7 @@ loadCategories();
       //    $('.msg-box').append(user_start + txt + user_stop);
           Divscroll();
         //  setInterval(function(){
-          $.post('https://harpreetford.herokuapp.com/client/v1/createchat', {"chat": txt,"expert": expert_id,"client": client_id, "type":"client"}, function(data, status){
+          $.post('https://harpreetford.herokuapp.com/client/v1/createchat/', {"chat": txt,"expert": expert_id,"client": client_id, "type":"client"}, function(data, status){
             if(status=="success"){
 
             }
@@ -208,7 +208,7 @@ loadCategories();
     var choice = $(this).text();
     var batchid = $(this).attr('batchid');
     //console.log(choice);
-    $.post('https://harpreetford.herokuapp.com/client/v1/tag', {name: choice},function(data){
+    $.post('https://harpreetford.herokuapp.com/client/v1/tag/', {name: choice},function(data){
       //console.log("work");
     });
     $('.msg-box').append(user_start + choice + user_stop);
