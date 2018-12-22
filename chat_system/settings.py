@@ -45,6 +45,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.common.CommonMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -54,14 +55,33 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'chat_system.urls'
 
-CORS_ORIGIN_WHITELIST = (
-    'wwww.harpreetford.com',
-)
-CORS_ORIGIN_REGEX_WHITELIST = (
-    'wwww.harpreetford.com',
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_HEADERS = (
+'x-requested-with',
+'content-type',
+'accept',
+    'accept-encoding',
+    'dnt',
+    'user-agent',
+    'x-requested-with',
+'origin',
+'authorization',
+'x-csrftoken',
+'Api-Authorization',
+    'accept',
+    'authorization',
+    'Access-Control-Allow-Origin',
 )
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST =  ( '*' )
+
+CSRF_TRUSTED_ORIGINS = (
+    '*'
+)
+
+
+
 CORS_ALLOW_CREDENTIALS = True
 
 
@@ -75,19 +95,6 @@ CORS_ALLOW_METHODS = (
 )
 
 
-
-CORS_ALLOW_HEADERS = (
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'Access-Control-Allow-Origin',
-    'x-requested-with',
-)
 
 
 TEMPLATES = [
