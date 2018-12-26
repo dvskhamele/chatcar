@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Chat System</title>
+    <title> Chat System</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -258,7 +258,8 @@
         var client_name = "";
         var client_id = 0;
         var expert_id = {{user.id}};
-
+        var usertype = "{{usertype}}";
+        console.log(usertype);
         setInterval(function(){
           $.get('https://harpreetford.herokuapp.com/client/v1/taglist/', function(data){
             tags = [];
@@ -281,14 +282,19 @@
           });
           $.get('https://harpreetford.herokuapp.com/client/v1/displaychatrequest/', function(data){
             //console.log(data);
+
             requestdata = data;
+            console.log(data);
+
             allchreq = "";
             $.each( data, function( key, value ) {
-              allchreq +='<a href="#" requestid="'+value.id+'" client_name="'+value.client_name+'" client_id="'+value.client+'" style="margin-bottom:5px;width:100%;text-alight:left !important;" class="btn btn-primary requestchat"><i class="fa fa-comments fa-fw"></i><strong>'+value.client_name+'</strong> for '+value.requestdata+'<span class="pull-right text-muted small"><em></em></span></a>';
+              if(usertype==value.requestdata){
+                allchreq +='<a href="#" requestid="'+value.id+'" client_name="'+value.client_name+'" client_id="'+value.client+'" style="margin-bottom:5px;width:100%;text-alight:left !important;" class="btn btn-primary requestchat"><i class="fa fa-comments fa-fw"></i><strong>'+value.client_name+'</strong> for '+value.requestdata+'<span class="pull-right text-muted small"><em></em></span></a>';
+              }
             });
             $('#chatrequest').html(allchreq);
           });
-        }, 3000);
+        }, 2000);
         $('body').on('click', '.requestchat', function(){
             client_id = $(this).attr('client_id');
             client_name = $(this).attr('client_name');

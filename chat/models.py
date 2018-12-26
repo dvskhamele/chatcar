@@ -1,6 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    CHOICES = (
+        ('Sales', 'Sales'),
+        ('Services', 'Services'),
+        ('Insurance', 'Insurance'),
+        ('Other', 'Other'),
+    )
+    usertype = models.CharField(max_length=10, choices=CHOICES)
+
+    def __str__(self):
+        return self.user.username
+
 class Client(models.Model):
     name = models.CharField(max_length=50)
     mobile = models.CharField(max_length=10)
@@ -43,7 +56,13 @@ class Tags(models.Model):
 class ChatRequest(models.Model):
     client = models.ForeignKey(Client, related_name='requestclient', on_delete=models.CASCADE)
     expert = models.ForeignKey(User, related_name='requestexpert', on_delete=models.CASCADE, blank=True, null=True)
-    requestdata = models.CharField(max_length=25)
+    CHOICES = (
+        ('Sales', 'Sales'),
+        ('Services', 'Services'),
+        ('Insurance', 'Insurance'),
+        ('Other', 'Other'),
+    )
+    requestdata = models.CharField(max_length=10, choices=CHOICES)
     status = models.CharField(max_length=10, default='Panding')
 
 

@@ -82,7 +82,10 @@ def user_logout(request):
 
 @login_required(login_url='../')
 def dashboard(request):
-    return render(request, 'index.html')
+    context = {}
+    x = UserProfile.objects.get(user=request.user)
+    context['usertype'] = x.usertype
+    return render(request, 'index.html', context)
 
 
 def taglist(request):
