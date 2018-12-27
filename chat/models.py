@@ -10,9 +10,23 @@ class UserProfile(models.Model):
         ('Other', 'Other'),
     )
     usertype = models.CharField(max_length=10, choices=CHOICES)
+    Loc_choice = (
+        ('1', 'Moti Nagar'),
+        ('2', 'Dilshad Garden'),
+        ('3', 'Prashant Vihar'),
+        ('4', 'Infocity'),
+        ('5', 'MG Road'),
+    )
+    locations = models.CharField(max_length=2, choices=Loc_choice)
 
     def __str__(self):
         return self.user.username
+
+class Locations(models.Model):
+    location = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.location
 
 class Client(models.Model):
     name = models.CharField(max_length=50)
@@ -63,6 +77,7 @@ class ChatRequest(models.Model):
         ('Other', 'Other'),
     )
     requestdata = models.CharField(max_length=10, choices=CHOICES)
+    locations = models.CharField(max_length=2, blank=True)
     status = models.CharField(max_length=10, default='Panding')
 
 

@@ -85,6 +85,7 @@ def dashboard(request):
     context = {}
     x = UserProfile.objects.get(user=request.user)
     context['usertype'] = x.usertype
+    context['userloc'] = x.locations
     return render(request, 'index.html', context)
 
 
@@ -126,3 +127,7 @@ def doChat(request):
     #ChatRequest.objects.count()
     #User_Chat.objects.filter(type='client').count()
     #User.objects.count()
+
+class ShowLocation(generics.ListAPIView):
+    queryset = Locations.objects.all()
+    serializer_class = LocationSerializer

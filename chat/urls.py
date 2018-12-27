@@ -12,7 +12,7 @@ urlpatterns = [
     path('client/v1/detailchatrequest/<int:pk>', views.DetailChatRequest.as_view()),
     path('client/v1/createchat/', views.CreateChat.as_view()),
     path('client/v1/chat/<int:c1>/<int:c2>', views.DisplayChat.as_view()),
-
+    path('client/v1/locations/', views.ShowLocation.as_view()),
 
     path('', views.index, name="index"),
     path('dashboard/', views.dashboard, name="dashboard"),

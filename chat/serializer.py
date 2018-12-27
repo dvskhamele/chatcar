@@ -8,6 +8,12 @@ class TagSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only = ['pk']
 
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Locations
+        fields = '__all__'
+        read_only = ['pk']
+
 class BotChatSerializer(serializers.ModelSerializer):
     class Meta:
         model = BotChat

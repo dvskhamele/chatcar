@@ -102,7 +102,7 @@
                                 </div>
                             </div>
                         </div>
-			<a href="https://harpreetford.herokuapp.com/admin/chat/chatrequest/" target="_blank">
+			<a href="http://localhost:8000/admin/chat/chatrequest/" target="_blank">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -124,7 +124,7 @@
                                 </div>
                             </div>
                        </div>
-			<a href="https://harpreetford.herokuapp.com/admin/chat/client/" target="_blank">
+			<a href="http://localhost:8000/admin/chat/client/" target="_blank">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -146,7 +146,7 @@
                                 </div>
                             </div>
                         </div>
-			                     <a href="https://harpreetford.herokuapp.com/admin/chat/user_chat/" target="_blank">
+			                     <a href="http://localhost:8000/admin/chat/user_chat/" target="_blank">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -259,9 +259,10 @@
         var client_id = 0;
         var expert_id = {{user.id}};
         var usertype = "{{usertype}}";
+        var userloc = "{{userloc}}";
         console.log(usertype);
         setInterval(function(){
-          $.get('https://harpreetford.herokuapp.com/client/v1/taglist/', function(data){
+          $.get('http://localhost:8000/client/v1/taglist/', function(data){
             tags = [];
             count = [];
             $.each( data.tags, function( key, value ) {
@@ -280,15 +281,19 @@
           $('#tquery').text(data.tquery);
           $('#tuser').text(data.tuser);
           });
-          $.get('https://harpreetford.herokuapp.com/client/v1/displaychatrequest/', function(data){
+          //https://harpreetford.herokuapp.com
+          $.get('http://localhost:8000/client/v1/displaychatrequest/', function(data){
             //console.log(data);
-
+            //userloc
             requestdata = data;
             console.log(data);
 
             allchreq = "";
             $.each( data, function( key, value ) {
-              if(usertype==value.requestdata){
+              //locations userloc
+              if(usertype=='Sales' && userloc==value.locations){
+                allchreq +='<a href="#" requestid="'+value.id+'" client_name="'+value.client_name+'" client_id="'+value.client+'" style="margin-bottom:5px;width:100%;text-alight:left !important;" class="btn btn-primary requestchat"><i class="fa fa-comments fa-fw"></i><strong>'+value.client_name+'</strong> for '+value.requestdata+'<span class="pull-right text-muted small"><em></em></span></a>';
+              }else if(usertype==value.requestdata && usertype != 'Sales'){
                 allchreq +='<a href="#" requestid="'+value.id+'" client_name="'+value.client_name+'" client_id="'+value.client+'" style="margin-bottom:5px;width:100%;text-alight:left !important;" class="btn btn-primary requestchat"><i class="fa fa-comments fa-fw"></i><strong>'+value.client_name+'</strong> for '+value.requestdata+'<span class="pull-right text-muted small"><em></em></span></a>';
               }
             });
@@ -300,7 +305,7 @@
             client_name = $(this).attr('client_name');
             var requestid = $(this).attr('requestid');
             $(this).hide();
-            $.get('https://harpreetford.herokuapp.com/acceptRequest/'+requestid+'/'+expert_id, function(data){
+            $.get('http://localhost:8000/acceptRequest/'+requestid+'/'+expert_id, function(data){
                 //console.log(data);
                 $("#client_name").text(client_name);
                 $(".chat").empty();
@@ -317,7 +322,7 @@
           var txt = $('#btn-input').val();
           $('#btn-input').val("");
           if(txt.length>0){
-            $.post('https://harpreetford.herokuapp.com/client/v1/dochat/', {"chat": txt,"expert": expert_id,"client": client_id, "type":"expert"}, function(data, status){
+            $.post('http://localhost:8000/client/v1/dochat/', {"chat": txt,"expert": expert_id,"client": client_id, "type":"expert"}, function(data, status){
               //console.log(data);
               if(data=="success"){
 
@@ -334,7 +339,7 @@
         var txt = $(this).val();
         if(txt.length>1){
           $(this).val("");
-          $.post('https://harpreetford.herokuapp.com/client/v1/dochat/', {"chat": txt,"expert": expert_id,"client": client_id, "type":"expert"}, function(data, status){
+          $.post('http://localhost:8000/client/v1/dochat/', {"chat": txt,"expert": expert_id,"client": client_id, "type":"expert"}, function(data, status){
             //console.log(data);
             if(data=="success"){
 
@@ -344,10 +349,10 @@
     }
   });
       });
-//https://harpreetford.herokuapp.com
+//http://localhost:8000
 function displayChat(expert_id, client_id, client_start, client_name, client_mid1, client_mid2, client_end, expert_start, expert_mid1, expert_mid2, expert_end){
   var allchat = "";
-  $.get('https://harpreetford.herokuapp.com/client/v1/chat/'+expert_id+'/'+client_id, function(data){
+  $.get('http://localhost:8000/client/v1/chat/'+expert_id+'/'+client_id, function(data){
     //console.log(data.length);
     var chat_id = $('#chat_id').val();
     //console.log(data);
