@@ -109,11 +109,8 @@ def taglist(request):
 
 
 def acceptRequest(request, pk=None, userid=None):
-    x = ChatRequest.objects.get(pk=pk)
     y = User.objects.get(pk=userid)
-    x.expert = y
-    x.status = "Accepted"
-    x.save()
+    ChatRequest.objects.filter(pk=pk).update(expert = y, status = "Accepted")
     return JsonResponse({'data':'Accepted'})
 
 @csrf_exempt
@@ -136,12 +133,7 @@ class ShowLocation(generics.ListAPIView):
     serializer_class = LocationSerializer
 
 @csrf_exempt
-def destroyChatRequest(request):
-    '''
-    client = Client.objects.get(pk=request.POST.get('client')),
-    expert = User.objects.get(pk=request.POST.get('expert')),
-    chat = ChatRequest.objects.filter(client=client).filter(expert=expert)
-    chat[0].status = "Expired"
-    chat[0].save()
-'''
-    return HttpResponse(request.POST.get('client'))
+def destroyChatRequest(request, client=None):
+    c = Client.objects.get(pk=client)
+    ChatRequest.objects.filter(client=c).update(status = 'Expired')
+    return HttpResponse('Expired')
