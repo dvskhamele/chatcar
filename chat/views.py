@@ -136,4 +136,19 @@ class ShowLocation(generics.ListAPIView):
 def destroyChatRequest(request, client=None):
     c = Client.objects.get(pk=client)
     ChatRequest.objects.filter(client=c).update(status = 'Expired')
+    try:
+        chats = User_Chat.objects.filter(client=c)
+        allchats = "";
+        for cc in chats:
+            if cc.type=="client":
+                allchats += cc.client.name+": "+cc.chat+"\n"
+            elif cc.type=="expert":
+                allchats += cc.expert.username+": "+cc.chat+"\n"
+        send_mail('Harpreetford',
+                'Thanks to connecting with us.\n\n You Conversesion is here: \n '+allchats,
+                'skshorya@gmail.com',
+                ['kaushikprateek11@gmail.com']
+        )
+    except:
+        pass
     return HttpResponse('Expired')
