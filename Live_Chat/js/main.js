@@ -282,7 +282,7 @@ function displayChat(expert_id, client_id, user_start, user_stop, botrply_start,
 
 
 function convertDate(date){
-/*  date = date.split('T0');
+  date = date.toString().split('T');
   time = date[1].split('.');
   time = time[0].split(':')
   var s = "";
@@ -292,7 +292,7 @@ function convertDate(date){
   }else{
     s = "AM";
   }
-  return time[0]+":"+time[1]+" "+s;*/
+  return time[0]+":"+time[1]+" "+s;
   return date;
 }
 

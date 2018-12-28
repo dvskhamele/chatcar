@@ -19,4 +19,5 @@ urlpatterns = [
     path('user_logout/', views.user_logout, name="logout"),
     path('acceptRequest/<int:pk>/<int:userid>', views.acceptRequest, name="acceptRequest"),
     path('client/v1/dochat/', views.doChat),
+    path('client/v1/endsession/<int:client>/<int:expert>', views.doChat),
 ]

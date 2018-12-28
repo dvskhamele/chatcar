@@ -78,7 +78,12 @@ class ChatRequest(models.Model):
     )
     requestdata = models.CharField(max_length=10, choices=CHOICES)
     locations = models.CharField(max_length=2, blank=True)
-    status = models.CharField(max_length=10, default='Panding')
+    Sess_choice = (
+        ('Panding', 'Panding'),
+        ('Success', 'Success'),
+        ('Expired', 'Expired'),
+    )
+    status = models.CharField(max_length=10, choices=Sess_choice, default='Panding')
 
 
     def __str__(self):

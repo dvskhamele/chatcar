@@ -11,6 +11,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 import json
+from django.core.mail import send_mail
+
+#send_mail('subject', 'body of the message', 'sender@example.com', ['receiver1@example.com', 'receiver2@example.com'])
 
 class CreateTag(generics.CreateAPIView):
     queryset = Tags.objects.all()
@@ -131,3 +134,11 @@ def doChat(request):
 class ShowLocation(generics.ListAPIView):
     queryset = Locations.objects.all()
     serializer_class = LocationSerializer
+
+@csrf_exempt
+def destroyChatRequest(request):
+    client = Client.objects.get(pk=request.POST['client']),
+    expert = User.objects.get(pk=request.POST['expert']),
+    chat = User_Chat.objects.get(client=client, expert=expert)
+    chat.status = "Expired"
+    chat.save()

@@ -168,8 +168,10 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="chat-panel panel panel-default">
-                        <div class="panel-heading">
+                        <div class="panel-heading" style="position:relative">
                             <i class="fa fa-comments fa-fw"></i> <span id="client_name"></span>
+                            <button type="button" id="endSess" class="btn btn-danger"
+                            style="position:absolute;display: none; right:2px;top:2px;" name="button">endSess</button>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body chat-div">
@@ -315,6 +317,7 @@
             $.get('https://harpreetford.herokuapp.com/acceptRequest/'+requestid+'/'+expert_id, function(data){
                 //console.log(data);
                 $("#client_name").text(client_name);
+                $('#endSess').show();
                 $(".chat").empty();
                 setInterval(function(){
                    displayChat(expert_id, client_id, client_start, client_name, client_mid1, client_mid2, client_end, expert_start, expert_mid1, expert_mid2, expert_end);
@@ -324,6 +327,16 @@
             });
         });
 
+        $('#endSess').click(function(){
+          $.post('https://harpreetford.herokuapp.com/client/v1/endsession/', {'client': client_id, 'expert': expert_id}, function(data){
+            $('#endSess').hide();
+            client_name = "";
+            client_id = 0;
+            $("#client_name").text('');
+            $(".chat").empty();
+            alert('Session Ended');
+          });
+        });
 
         $('#btn-chat').click(function(){
           var txt = $('#btn-input').val();
@@ -379,7 +392,7 @@ function displayChat(expert_id, client_id, client_start, client_name, client_mid
 
 
 function convertDate(date){
-  /*date = date.split('T0');
+  date = date.toString().split('T0');
   time = date[1].split('.');
   time = time[0].split(':')
   var s = "";
@@ -389,8 +402,8 @@ function convertDate(date){
   }else{
     s = "AM";
   }
-  return time[0]+":"+time[1]+" "+s;*/
-  return date;
+  return time[0]+":"+time[1]+" "+s;
+//  return date;
 }
 
 
