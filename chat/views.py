@@ -144,4 +144,4 @@ def destroyChatRequest(request):
     chat[0].status = "Expired"
     chat[0].save()
 '''
-    return HttpResponse(request.POST.get('client'))
+    return HttpResponse(request.GET.get('client'))
