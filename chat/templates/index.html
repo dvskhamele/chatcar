@@ -48,12 +48,12 @@
   <div class="container-fluid" style="margin-top:15px;">
 
     <div class="row">
-      <div class="col-lg-5">
+      <div class="col-lg-5 col-md-5">
         <ol class="breadcrumb" style="margin-bottom:15px;">
           <li class="breadcrumb-item active">Real Time</li>
         </ol>
         <div class="row">
-          <div class="col-lg-5">
+          <div class="col-lg-5 col-md-5">
 
             <div class="card border-secondary" style="margin-bottom:15px;">
               <div class="card-header" style="position:relative"><i style="position: absolute;top:0;left: 0;background-color:purple;padding:15px;" class="fas fa-comments"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Total Requests</div>
@@ -76,7 +76,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-7">
+          <div class="col-lg-7 col-md-7">
             <div class="card border-secondary">
               <div class="card-header" style="position:relative"><i style="position: absolute;top:0;left: 0;background-color:#ff8000;padding:15px;" class="fas fa-tags"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tags</div>
               <div class="card-body" style="height:450px;overflow:auto">
@@ -89,12 +89,12 @@
         </div>
       </div>
 
-      <div class="col-lg-7">
+      <div class="col-lg-7 col-md-7">
         <ol class="breadcrumb" style="margin-bottom:15px;">
           <li class="breadcrumb-item active">Client Chat</li>
         </ol>
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-6 col-md-6">
 
             <div class="card border-secondary" style="margin-bottom:15px;">
               <div class="card-header" style="position:relative">
@@ -113,7 +113,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-6 col-md-6">
             <div class="card border-secondary">
               <div class="card-header" style="position:relative"><i style="position: absolute;top:0;left: 0;background-color:#339966;padding:15px;" class="fas fa-atlas"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chat Request</div>
               <div class="card-body" style="height:450px;overflow:auto">
@@ -194,9 +194,9 @@
           $.each( data, function( key, value ) {
             //locations userloc
             if(usertype=='Sales' && userloc==value.locations){
-              allchreq +='<a href="#" requestid="'+value.id+'" client_name="'+value.client_name+'" client_id="'+value.client+'" style="margin-bottom:5px;width:100%;text-alight:left !important;" class="btn btn-primary requestchat"><i class="fa fa-comments fa-fw"></i><strong>'+value.client_name+'</strong> for '+value.requestdata+'<span class="pull-right text-muted small"><em></em></span></a>';
+              allchreq +='<a href="#" requestid="'+value.id+'" client_name="'+value.client_name+'" client_id="'+value.client+'" style="margin-bottom:5px;width:100%;text-alight:left !important;" class="btn btn-primary requestchat"><i class="fa fa-comments fa-fw"></i> <strong>'+value.client_name+'</strong> for '+value.requestdata+'<span class="pull-right text-muted small"><em></em></span></a>';
             }else if(usertype==value.requestdata && usertype != 'Sales'){
-              allchreq +='<a href="#" requestid="'+value.id+'" client_name="'+value.client_name+'" client_id="'+value.client+'" style="margin-bottom:5px;width:100%;text-alight:left !important;" class="btn btn-primary requestchat"><i class="fa fa-comments fa-fw"></i><strong>'+value.client_name+'</strong> for '+value.requestdata+'<span class="pull-right text-muted small"><em></em></span></a>';
+              allchreq +='<a href="#" requestid="'+value.id+'" client_name="'+value.client_name+'" client_id="'+value.client+'" style="margin-bottom:5px;width:100%;text-alight:left !important;" class="btn btn-primary requestchat"><i class="fa fa-comments fa-fw"></i> <strong>'+value.client_name+'</strong> for '+value.requestdata+'<span class="pull-right text-muted small"><em></em></span></a>';
             }
           });
           $('#chatrequest').html(allchreq);
@@ -221,7 +221,7 @@
       });
 
       $('#endSess').click(function(){
-        $.post('https://harpreetford.herokuapp.com/client/v1/endsession/', {'client': client_id, 'expert': expert_id}, function(data){
+        $.get('https://harpreetford.herokuapp.com/client/v1/endsession/'+client_id, function(data){
           $('#endSess').hide();
           client_name = "";
           client_id = 0;
