@@ -139,6 +139,6 @@ class ShowLocation(generics.ListAPIView):
 def destroyChatRequest(request):
     client = Client.objects.get(pk=request.POST['client']),
     expert = User.objects.get(pk=request.POST['expert']),
-    chat = User_Chat.objects.get(client=client, expert=expert)
+    chat = ChatRequest.objects.get(client=client, expert=expert)
     chat.status = "Expired"
     chat.save()
