@@ -282,18 +282,21 @@ function displayChat(expert_id, client_id, user_start, user_stop, botrply_start,
 
 
 function convertDate(date){
-  date = date.toString().split('T0');
-  time = date[1].split('.');
-  time = time[0].split(':')
+  var date = new Date(date);
+  var h = date.getHours();
+  var m = date.getMinutes();
+  m = m+"";
+  if(m.length==1){
+    m = "0"+m;
+  }
   var s = "";
-  if (time[0]>12){
+  if (h>12){
     s = "PM";
-    h = time[0]-12;
+    h = h-12;
   }else{
     s = "AM";
   }
-  return time[0]+":"+time[1]+" "+s;
-//  return date;
+  return h+":"+m+" "+s
 }
 
 
