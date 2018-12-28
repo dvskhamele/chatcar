@@ -210,7 +210,7 @@
           $.get('https://harpreetford.herokuapp.com/acceptRequest/'+requestid+'/'+expert_id, function(data){
               //console.log(data);
               $("#client_name").text(client_name);
-            //  $('#endSess').show();
+              $('#endSess').show();
               $(".chat").empty();
               setInterval(function(){
                  displayChat(expert_id, client_id, client_start, client_name, client_mid1, client_mid2, client_end, expert_start, expert_mid1, expert_mid2, expert_end);
@@ -221,7 +221,7 @@
       });
 
       $('#endSess').click(function(){
-        $.post('127.0.0.1:8000/client/v1/endsession/', {'client': client_id, 'expert': expert_id}, function(data){
+        $.post('https://harpreetford.herokuapp.com/client/v1/endsession/', {'client': client_id, 'expert': expert_id}, function(data){
           $('#endSess').hide();
           client_name = "";
           client_id = 0;
