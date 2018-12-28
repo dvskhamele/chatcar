@@ -137,8 +137,8 @@ class ShowLocation(generics.ListAPIView):
 
 @csrf_exempt
 def destroyChatRequest(request):
-    client = Client.objects.get(pk=request.POST['client']),
     expert = User.objects.get(pk=request.POST['expert']),
+    client = Client.objects.get(pk=request.POST['client']),
     chat = ChatRequest.objects.filter(client=client).filter(expert=expert)
     chat[0].status = "Expired"
     chat[0].save()
