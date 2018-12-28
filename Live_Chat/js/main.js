@@ -107,7 +107,7 @@ loadCategories();
     var contactMob = $("#contact_mobile").val();
     //After Submission Validation
     if (contact_flg_1==0 && contact_flg_2==0 && contact_flg_3==0){
-      $.post('http://localhost:8000/client/v1/users/', {"name": contactName, "mobile": contactMob, "email": contactEmail}, function(data, status){
+      $.post('https://harpreetford.herokuapp.com/client/v1/users/', {"name": contactName, "mobile": contactMob, "email": contactEmail}, function(data, status){
 
         if (status=="success"){
           client_id = data.id;
@@ -150,7 +150,7 @@ loadCategories();
     var choice = $(this).text();
     console.log(choice);
     if (choice=='Sales'){
-      $.get('http://127.0.0.1:8000/client/v1/locations/', function(data){
+      $.get('https://harpreetford.herokuapp.com/client/v1/locations/', function(data){
         var locations = "";
         $.each( data, function( key, value ) {
           locations += "<button class='btn btn-primary saleslocation' style='margin-bottom:3px;margin-right:3px;' loc_id='"+value.id+"'>"+value.location+"</button>";
@@ -179,9 +179,9 @@ loadCategories();
     $('.chatoptions').addClass('chatoptions1');
     $('.chatoptions1').removeClass('chatoptions');
 //https://harpreetford.herokuapp.com
-    $.post('http://localhost:8000/client/v1/chatrequest/', {'client': client_id, 'requestdata':choice, 'locations': loc_id}, function(data, status){
+    $.post('https://harpreetford.herokuapp.com/client/v1/chatrequest/', {'client': client_id, 'requestdata':choice, 'locations': loc_id}, function(data, status){
       myVar = setInterval(function(){
-        $.get('http://localhost:8000/client/v1/detailchatrequest/'+data.id, function(data){
+        $.get('https://harpreetford.herokuapp.com/client/v1/detailchatrequest/'+data.id, function(data){
           if(data.status=="Accepted"){
             expert_id = data.expert;
             clearInterval(myVar);
@@ -221,7 +221,7 @@ loadCategories();
       //    $('.msg-box').append(user_start + txt + user_stop);
           Divscroll();
         //  setInterval(function(){
-          $.post('http://localhost:8000/client/v1/createchat/', {"chat": txt,"expert": expert_id,"client": client_id, "type":"client"}, function(data, status){
+          $.post('https://harpreetford.herokuapp.com/client/v1/createchat/', {"chat": txt,"expert": expert_id,"client": client_id, "type":"client"}, function(data, status){
             if(status=="success"){
 
             }
@@ -234,7 +234,7 @@ loadCategories();
     var choice = $(this).text();
     var batchid = $(this).attr('batchid');
 
-    $.post('http://localhost:8000/client/v1/tag/', {name: choice},function(data){
+    $.post('https://harpreetford.herokuapp.com/client/v1/tag/', {name: choice},function(data){
 
     });
     $('.msg-box').append(user_start + choice + user_stop);
@@ -262,7 +262,7 @@ loadCategories();
 });
 
 function displayChat(expert_id, client_id, user_start, user_stop, botrply_start, botrply_mid, botrply_end){
-  $.get('http://localhost:8000/client/v1/chat/'+expert_id+'/'+client_id, function(data){
+  $.get('https://harpreetford.herokuapp.com/client/v1/chat/'+expert_id+'/'+client_id, function(data){
 
     var allchat = "";
     var chat_id = $('#chat_id').val();
@@ -328,7 +328,7 @@ function playAudio(audio, muteflg){
 
 function loadCategories(){
   var str = "";
-  $.get("http://localhost:8000/client/v1/botmsgs/", function(data){
+  $.get("https://harpreetford.herokuapp.com/client/v1/botmsgs/", function(data){
     $.each( data, function( key, value ) {
       str += '<span class="badge badge-light" batchid="'+value.id+'">' + value.msg + '</span>';
     });
@@ -339,7 +339,7 @@ function loadCategories(){
 }
 
 function reply(batchid, botrply_start, botrply_mid, botrply_end, botrply_choice_start, botrply_choice_mid, audio, muteflg){
-  $.get('http://localhost:8000/client/v1/botmsgsdetail/'+batchid, function(data){
+  $.get('https://harpreetford.herokuapp.com/client/v1/botmsgsdetail/'+batchid, function(data){
 
     $.each( data, function( key, value ) {
       $('.msg-box').delay(1500).queue(function (next) {
