@@ -139,7 +139,7 @@ def destroyChatRequest(request, client=None):
 
     chats = User_Chat.objects.filter(client=c)
     allchats = "";
-    cemail = chats[0].email
+    cemail = c.email
     for cc in chats:
         if cc.type=="client":
             allchats += cc.client.name+": "+cc.chat+"\n"
