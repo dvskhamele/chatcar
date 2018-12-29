@@ -173,3 +173,9 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 APPEND_SLASH=False
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'skshorya'
+EMAIL_HOST_PASSWORD = 'Pkaran@26'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
