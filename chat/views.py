@@ -138,17 +138,21 @@ def destroyChatRequest(request, client=None):
     ChatRequest.objects.filter(client=c).update(status = 'Expired')
 
     chats = User_Chat.objects.filter(client=c)
-    allchats = "";
-    cemail = c.email
+    allchats = "<ul>";
+    #cemail = c.email
+    cemail = 'kaushikprateek11@gmail.com'
     for cc in chats:
         if cc.type=="client":
-            allchats += cc.client.name+": "+cc.chat+"\n"
+            allchats += "<li><strong>"+cc.client.name+":</strong> "+cc.chat+"</li>"
         elif cc.type=="expert":
-            allchats += cc.expert.username+": "+cc.chat+"\n"
+            allchats += "<li><strong>"+cc.expert.username+":</strong> "+cc.chat+"</li>"
+    allchats += "</ul>"
     send_mail('Harpreet Ford',
-            'Thanks to connecting with us. You Conversesion is here: \n '+allchats,
+            'Thanks to connecting with us. You Conversesion is here: \n ',
             'skshorya@gmail.com',
-            [c.email]
+            [cemail],
+            html_message=allchats
     )
+
 
     return HttpResponse('Expired')
