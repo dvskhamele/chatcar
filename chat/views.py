@@ -146,9 +146,9 @@ def destroyChatRequest(request, client=None):
         elif cc.type=="expert":
             allchats += cc.expert.username+": "+cc.chat+"\n"
     send_mail('Harpreet Ford',
-            'Thanks to connecting with us.\n\n You Conversesion is here: \n '+allchats,
+            'Thanks to connecting with us. You Conversesion is here: \n '+allchats,
             'skshorya@gmail.com',
-            ['kaushikprateek11@gmail.com']
+            [c.email]
     )
 
     return HttpResponse('Expired')
