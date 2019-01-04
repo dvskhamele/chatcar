@@ -182,6 +182,8 @@
         $('#tchat').text(data.tchat);
         $('#tquery').text(data.tquery);
         $('#tuser').text(data.tuser);
+        }).fail(function(){
+          alert('Server Error');
         });
         //https://harpreetford.herokuapp.com
         $.get('https://harpreetford.herokuapp.com/client/v1/displaychatrequest/', function(data){
@@ -189,7 +191,6 @@
           //userloc
           requestdata = data;
           ////console.log(data);
-
           allchreq = "";
           $.each( data, function( key, value ) {
             //locations userloc
@@ -200,6 +201,8 @@
             }
           });
           $('#chatrequest').html(allchreq);
+        }).fail(function(){
+          alert('Server Error');
         });
       }, 2000);
       $('body').on('click', '.requestchat', function(){
@@ -217,6 +220,8 @@
               },2000);
                 //playAudio(audio, muteflg);
               Divscroll();
+          }).fail(function(){
+            alert('Server Error');
           });
       });
 
@@ -228,6 +233,8 @@
           $("#client_name").text('');
           $(".chat").empty();
           alert('Session Ended');
+        }).fail(function(){
+          alert('Server Error');
         });
       });
 
@@ -238,10 +245,9 @@ $("#btn-input").keypress(function(event){
       if(txt.length>1){
         $(this).val("");
         $.post('https://harpreetford.herokuapp.com/client/v1/dochat/', {"chat": txt,"expert": expert_id,"client": client_id, "type":"expert"}, function(data, status){
-          //console.log(data);
-          if(data=="success"){
 
-          }
+        }).fail(function(){
+          alert('Server Error');
         });
       }
   }
@@ -265,6 +271,8 @@ $.get('https://harpreetford.herokuapp.com/client/v1/chat/'+expert_id+'/'+client_
     $('.chat').append(allchat);
     Divscroll();
   }
+}).fail(function(){
+  alert('Server Error');
 });
 }
 

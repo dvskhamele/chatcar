@@ -139,6 +139,10 @@ loadCategories();
           alert('server error. please try again after some time.');
         }
 
+      }).fail(function(){
+        $('.msg-box').append(botrply_start + getCurrTime() + botrply_mid +"server error. please try again after some time."+ botrply_end);
+        playAudio(audio, muteflg);
+        Divscroll();
       });
     }else{
       alert('Please fill correct details');
@@ -161,6 +165,10 @@ loadCategories();
           Divscroll();
           next();
         });
+      }).fail(function(){
+        $('.msg-box').append(botrply_start + getCurrTime() + botrply_mid +"server error. please try again after some time."+ botrply_end);
+        playAudio(audio, muteflg);
+        Divscroll();
       });
     }else{
       chatConnect(choice, "");
@@ -194,6 +202,10 @@ loadCategories();
               displayChat(expert_id, client_id, user_start, user_stop, botrply_start, botrply_mid, botrply_end, audio, muteflg);
             },2000);
           }
+        }).fail(function(){
+          $('.msg-box').append(botrply_start + getCurrTime() + botrply_mid +"server error. please try again after some time."+ botrply_end);
+          playAudio(audio, muteflg);
+          Divscroll();
         });
       }, 2000);
     /*  $('.msg-box').delay(2000).queue(function (next) {
@@ -209,6 +221,10 @@ loadCategories();
         Divscroll();
         next();
       });
+    }).fail(function(){
+      $('.msg-box').append(botrply_start + getCurrTime() + botrply_mid +"server error. please try again after some time."+ botrply_end);
+      playAudio(audio, muteflg);
+      Divscroll();
     });
 
   }
@@ -222,9 +238,11 @@ loadCategories();
           Divscroll();
         //  setInterval(function(){
           $.post('https://harpreetford.herokuapp.com/client/v1/createchat/', {"chat": txt,"expert": expert_id,"client": client_id, "type":"client"}, function(data, status){
-            if(status=="success"){
 
-            }
+          }).fail(function(){
+            $('.msg-box').append(botrply_start + getCurrTime() + botrply_mid +"server error. please try again after some time."+ botrply_end);
+            playAudio(audio, muteflg);
+            Divscroll();
           });
         }
     }
@@ -236,6 +254,10 @@ loadCategories();
 
     $.post('https://harpreetford.herokuapp.com/client/v1/tag/', {name: choice},function(data){
 
+    }).fail(function(){
+      $('.msg-box').append(botrply_start + getCurrTime() + botrply_mid +"server error. please try again after some time."+ botrply_end);
+      playAudio(audio, muteflg);
+      Divscroll();
     });
     $('.msg-box').append(user_start + choice + user_stop);
     Divscroll();
@@ -277,6 +299,10 @@ function displayChat(expert_id, client_id, user_start, user_stop, botrply_start,
       $('.msg-box').append(allchat);
     Divscroll();
   }
+  }).fail(function(){
+    $('.msg-box').append(botrply_start + getCurrTime() + botrply_mid +"server error. please try again after some time."+ botrply_end);
+    playAudio(audio, muteflg);
+    Divscroll();
   });
 }
 
@@ -358,5 +384,9 @@ function reply(batchid, botrply_start, botrply_mid, botrply_end, botrply_choice_
       Divscroll();
       next();
     });
+  }).fail(function(){
+    $('.msg-box').append(botrply_start + getCurrTime() + botrply_mid +"server error. please try again after some time."+ botrply_end);
+    playAudio(audio, muteflg);
+    Divscroll();
   });
 }
