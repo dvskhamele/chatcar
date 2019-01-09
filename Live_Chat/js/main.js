@@ -13,8 +13,12 @@ $(document).ready(function() {
 
   var botrply_end = '</div></p>';
 
-  var user_start = '<p style="text-align: right;margin-top: 30px !important;" class="card-text"><span class="user">';
-  var user_stop = '</span></p>';
+  var user_start_s = '<p style="text-align: right;margin-top: 30px !important;" class="card-text"><span class="user">';
+  var user_start_p = '<p style="text-align: right;margin-top: 30px !important;" class="card-text"><p class="user">';
+
+  var user_stop_s = '</span></p>';
+  var user_stop_p = '</p></p>';
+
   var audio = new Audio('sound/towards.mp3');
   var muteflg = 1;
 
@@ -152,7 +156,7 @@ loadCategories();
 
   $("body").on('click', '.chatoptions', function(){
     var choice = $(this).text();
-    console.log(choice);
+    //console.log(choice);
     if (choice=='Sales'){
       $.get('https://harpreetford.herokuapp.com/client/v1/locations/', function(data){
         var locations = "";
@@ -199,7 +203,7 @@ loadCategories();
             playAudio(audio, muteflg);
             Divscroll();
             setInterval(function(){
-              displayChat(expert_id, client_id, user_start, user_stop, botrply_start, botrply_mid, botrply_end, audio, muteflg);
+              displayChat(expert_id, client_id, user_start_p, user_stop_p, user_start_s, user_stop_s, botrply_start, botrply_mid, botrply_end, audio, muteflg);
             },2000);
           }
         }).fail(function(){
@@ -259,7 +263,7 @@ loadCategories();
       playAudio(audio, muteflg);
       Divscroll();
     });
-    $('.msg-box').append(user_start + choice + user_stop);
+    $('.msg-box').append(user_start_s + choice + user_stop_s);
     Divscroll();
     reply(batchid, botrply_start, botrply_mid, botrply_end, botrply_choice_start, botrply_choice_mid, audio, muteflg);
 
@@ -283,7 +287,7 @@ loadCategories();
 
 });
 
-function displayChat(expert_id, client_id, user_start, user_stop, botrply_start, botrply_mid, botrply_end){
+function displayChat(expert_id, client_id, user_start_p, user_stop_p, user_start_s, user_stop_s, botrply_start, botrply_mid, botrply_end){
   $.get('https://harpreetford.herokuapp.com/client/v1/chat/'+expert_id+'/'+client_id, function(data){
 
     var allchat = "";
@@ -292,7 +296,14 @@ function displayChat(expert_id, client_id, user_start, user_stop, botrply_start,
     $('#chat_id').val(data.length);
     for(c=chat_id;c<data.length;c++){
       if(data[c].type=="client"){
-        allchat += user_start + data[c].chat + user_stop;
+        var txtlen = data[c].chat;
+        console.log(data[c].chat);
+        console.log(txtlen);
+        if(txtlen.length>=36){
+          allchat += user_start_p + data[c].chat + user_stop_p;
+        }else {
+          allchat += user_start_s + data[c].chat + user_stop_s;
+        }
       }else if(data[c].type=="expert"){
         allchat += botrply_start + convertDate(data[c].cdate) + botrply_mid + data[c].chat + botrply_end;
       }

@@ -35,10 +35,16 @@
       </ul>
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="https://harpreetford.herokuapp.com/admin/">Admin Panel</a>
+          <a class="nav-link" href="https://harpreetford.herokuapp.com/admin/">Django Admin</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard' %}">Admin Panel</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'client' %}">Client Details</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="https://harpreetford.herokuapp.com/admin/">Welcome {{user.username| upper}} <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="{% url 'dashboard' %}">Welcome {{user.username| upper}} <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
         </li>

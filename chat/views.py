@@ -152,3 +152,8 @@ def destroyChatRequest(request, client=None):
     )
 
     return HttpResponse('Expired')
+
+def clientDetails(request):
+    context = {}
+    context['client'] = Client.objects.all()
+    return render(request, "client.html", context)

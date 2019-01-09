@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Live Chat</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <style media="screen">
+      .card-title{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 40px !important;
+      }
+      .list-group-item{
+        border-left: none !important;
+        border-right: none !important;
+        padding: 3px !important;
+        position: relative;
+      }
+    </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="https://harpreetford.herokuapp.com/admin/">Live Chat Dashboard</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor03">
+      <ul class="navbar-nav mr-auto">
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="https://harpreetford.herokuapp.com/admin/">Django Admin</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard' %}">Admin Panel</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'client' %}">Client Details</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard' %}">Welcome {{user.username| upper}} <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container-fluid" style="margin-top:15px;">
+
+    <div class="row">
+      <div class="col-lg-6 col-md-6">
+        <ol class="breadcrumb" style="margin-bottom:15px;">
+          <li class="breadcrumb-item active">Client Details</li>
+        </ol>
+
+        <div class="card border-secondary">
+          <div class="card-header" style="position:relative"><i style="position: absolute;top:0;left: 0;background-color:#339966;padding:15px;" class="fas fa-atlas"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Client Details</div>
+          <div class="card-body" style="height:380px;overflow:auto">
+            <table id="client" class="table table-bordered">
+              <tr>
+                <th>SNo.</th>
+                <th>Name of Client</th>
+                <th>Email</th>
+                <th>Mobile</th>
+              </tr>
+              {% for c in client %}
+              <tr>
+                <td>{{forloop.counter}}.</td>
+                <td>{{c.name}}</td>
+                <td>{{c.email}}</td>
+                <td>{{c.mobile}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+          <div class="card-footer">
+            <button type="button" class="btn btn-primary" onclick="exportTableToExcel('client', 'Client_details')" name="button">Download as Excel</button>
+            <button type="button" class="btn btn-primary" onclick="printDiv('client')" name="button">Print</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <ol class="breadcrumb" style="margin-bottom:15px;">
+          <li class="breadcrumb-item active">Client Chat</li>
+        </ol>
+
+      </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    function exportTableToExcel(tableID, filename = ''){
+      var downloadLink;
+      var dataType = 'application/vnd.ms-excel';
+      var tableSelect = document.getElementById(tableID);
+      var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+      // Specify file name
+      filename = filename?filename+'.xls':'excel_data.xls';
+
+      // Create download link element
+      downloadLink = document.createElement("a");
+
+      document.body.appendChild(downloadLink);
+
+      if(navigator.msSaveOrOpenBlob){
+          var blob = new Blob(['\ufeff', tableHTML], {
+              type: dataType
+          });
+          navigator.msSaveOrOpenBlob( blob, filename);
+      }else{
+          // Create a link to the file
+          downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+          // Setting the file name
+          downloadLink.download = filename;
+
+          //triggering the function
+          downloadLink.click();
+      }
+    }
+
+    function printDiv(divID) {
+      //Get the HTML of div
+      var sheet = "<link rel='stylesheet' media='print' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css' integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymous'><link href='/static/css/bootstrap.min.css' media='print' rel='stylesheet'>";
+      var style = "<style>table tr td{ color:black !important}</style>";
+      var divElements = document.getElementById(divID).innerHTML;
+      var oldPage = document.body.innerHTML;
+      document.body.innerHTML =
+        "<html><head><title>Client Details</title>"+sheet+"</head><body style='color:black !important'><br/><table class='table table-bordered'>" +
+        divElements + "</table></body>";
+      window.print();
+      document.body.innerHTML = oldPage;
+    }
+  </script>
+</body>
+</html>
