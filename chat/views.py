@@ -157,3 +157,30 @@ def clientDetails(request):
     context = {}
     context['client'] = Client.objects.all()
     return render(request, "client.html", context)
+
+from django.core.serializers.json import DjangoJSONEncoder
+
+def chatHistory(request):
+    context = {}
+    client = Client.objects.all()
+    context['chat'] = []
+
+    for c in client:
+        cdetails = {'name': c.name, 'email': c.email, 'mobile': c.mobile}
+        c_chat = []
+
+        chats = User_Chat.objects.filter(client=c).order_by('expert')
+
+        for chat in chats:
+            print(chat.type)
+            if chat.type == 'client':
+                c_chat.append({"name": chat.client.name, "chat": chat.chat, "date": chat.cdate})
+            elif chat.type == "expert":
+                c_chat.append({"name": chat.expert.username, "chat": chat.chat, "date": chat.cdate})
+
+        context["chat"].append({'clientdetails': cdetails, 'clientchat': c_chat})
+    return HttpResponse(json.dumps(
+                          context,
+                          sort_keys=True,
+                          indent=1,
+                          cls=DjangoJSONEncoder))
