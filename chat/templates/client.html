@@ -152,7 +152,7 @@
       document.body.innerHTML = oldPage;
     }
 
-    $.get('http://127.0.0.1:8000/chatHistory/', function(data){
+    $.get('https://harpreetford.herokuapp.com/chatHistory/', function(data){
       data = JSON.parse(data);
       $.each(data.chat, function(key, value){
         var history = "";
